@@ -1,3 +1,5 @@
+import { IPayload } from "./IPayload";
+
 export interface IMutation {
-    (state: object): void;
+    (state: object, payload: IPayload): void;
 }

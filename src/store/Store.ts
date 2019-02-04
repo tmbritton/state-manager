@@ -9,8 +9,9 @@ export class Store {
     private pubsub: PubSub
 
     constructor(stateDefinition: Object, mutations: Object) {
-        this.state = stateDefinition;
         this.pubsub = new PubSub;
+        this.state = stateDefinition;
+        this.mutations = mutations;
     }
 
     public getState() {
