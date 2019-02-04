@@ -41,7 +41,7 @@ export class PubSub {
                 return 0;
             }
         });
-        
+
         return this;
     }
 
