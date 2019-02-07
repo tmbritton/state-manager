@@ -1,9 +1,7 @@
 export interface ISubscription {
-    type: string,
-    callback: Function
-    priority?: number
+    type: string;
+    callback: ICallback;
+    priority?: number;
 }
 
-export interface ICallback {
-    (payload: object): void;
-}
+export type ICallback = (payload: object) => void;

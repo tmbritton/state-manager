@@ -1,5 +1,3 @@
 import { IPayload } from "./IPayload";
 
-export interface IMutation {
-    (state: object, payload: IPayload): void;
-}
+export type IMutation = (state: object, payload: IPayload) => void;

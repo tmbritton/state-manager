@@ -1,4 +1,4 @@
-export interface Dispatch {
-    type: string,
-    payload: any
+ export interface IDispatch {
+    type: string;
+    payload: object;
 }
