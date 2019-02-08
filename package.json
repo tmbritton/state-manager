@@ -15,7 +15,7 @@
     "url": "git+https://github.com/tmbritton/state-manager.git"
   },
   "files": [
-    "dist"
+    "dist/**/*"
   ],
   "author": "Thomas Britton",
   "license": "ISC",
