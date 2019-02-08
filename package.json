@@ -4,6 +4,8 @@
   "description": "Simple state manager written in Typescript for use in JS projects.",
   "main": "index.js",
   "scripts": {
+    "prepare": "npm run build",
+    "build": "tsc",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
     "pretest": "npm run lint",
     "test": "jest"
@@ -12,6 +14,9 @@
     "type": "git",
     "url": "git+https://github.com/tmbritton/state-manager.git"
   },
+  "files": [
+    "dist"
+  ],
   "author": "Thomas Britton",
   "license": "ISC",
   "bugs": {

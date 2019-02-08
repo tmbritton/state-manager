@@ -1,10 +1,9 @@
 import { IMutation } from "../interfaces/IMutation";
-import { IPayload } from "../interfaces/IPayload";
 import { PubSub } from "../pubsub/PubSub";
 
 export class Store {
 
-    private state: object;
+    private state: any;
     private mutations: object;
     private pubsub: PubSub;
 
@@ -22,8 +21,8 @@ export class Store {
         this.mutations[type] = callable;
     }
 
-    public commit(type: string, payload: IPayload) {
-        this.mutations[type](payload);
+    public commit(type: string, payload: object) {
+        this.mutations[type].call(this.state, payload);
         this.pubsub.publish(type, {payload: this.state});
     }
 }

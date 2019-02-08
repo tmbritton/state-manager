@@ -1,3 +1,1 @@
-import { IPayload } from "./IPayload";
-
-export type IMutation = (state: object, payload: IPayload) => void;
+export type IMutation = (payload: object) => void;

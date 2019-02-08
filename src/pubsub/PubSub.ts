@@ -1,4 +1,3 @@
-import { IPayload } from "../interfaces/IPayload";
 import { ISubscription } from "../interfaces/ISubscription";
 
 /**
@@ -45,11 +44,9 @@ export class PubSub {
         return this;
     }
 
-    public publish(type: string, payload: IPayload): void {
+    public publish(type: string, payload: object): void {
         if (this.subscriptions.hasOwnProperty(type)) {
             this.subscriptions[type].every((subscription) => subscription.callback(payload));
-        } else {
-            throw new Error("There are no subscriptions to type: " + type);
         }
     }
 
