@@ -7,6 +7,7 @@ import { ISubscription } from "../interfaces/ISubscription";
 export const PubSub = (() => {
 
     const subscriptions: ISubscription[] = [];
+    const defaultPriority = 10;
 
     /**
      * Subscribe to a published event.
@@ -14,7 +15,7 @@ export const PubSub = (() => {
      */
     const subscribe = (subscription: ISubscription): void => {
         if (typeof subscription.priority !== "number") {
-            subscription.priority = 0;
+            subscription.priority = defaultPriority;
         }
         if (!subscriptions[subscription.type]) {
             subscriptions[subscription.type] = [];
