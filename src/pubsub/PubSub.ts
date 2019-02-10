@@ -6,7 +6,7 @@ import { ICallback, ISubscription } from "../interfaces/ISubscription";
  */
 export const PubSub = (() => {
 
-    const subscriptions: ISubscription[] = [];
+    const subscriptions = {};
     const defaultPriority = 10;
 
     /**
@@ -47,14 +47,14 @@ export const PubSub = (() => {
      */
     const publish = (type: string, payload: object): void => {
         if (subscriptions.hasOwnProperty(type)) {
-            subscriptions[type].every((subscription) => subscription.callback(payload));
+            subscriptions[type].forEach((subscription) => subscription.callback(payload));
         }
     };
 
     /**
      * Return all subscriptions.
      */
-    const getSubscriptions = (): ISubscription[] => {
+    const getSubscriptions = () => {
         return subscriptions;
     };
 

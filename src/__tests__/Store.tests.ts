@@ -18,6 +18,10 @@ test("Get State", () => {
   expect(store.getState().test).toBe("Foo");
 });
 
+test("Get Mutations", () => {
+  expect(Object.keys(store.getMutations()).length).toBe(1);
+});
+
 test("Text Mutation", () => {
   const testPayload = {
     testString: "Bar",
