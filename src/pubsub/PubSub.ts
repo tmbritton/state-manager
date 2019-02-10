@@ -1,4 +1,4 @@
-import { ISubscription } from "../interfaces/ISubscription";
+import { ICallback, ISubscription } from "../interfaces/ISubscription";
 
 /**
  * Publish events with a payload.
@@ -13,20 +13,21 @@ export const PubSub = (() => {
      * Subscribe to a published event.
      * @param subscription
      */
-    const subscribe = (subscription: ISubscription): void => {
-        if (typeof subscription.priority !== "number") {
-            subscription.priority = defaultPriority;
+    const subscribe = (type: string, callback: ICallback, priority?: number): void => {
+        const subscription: ISubscription = {
+            callback,
+            priority: defaultPriority,
+        };
+        if (typeof priority === "number") {
+            subscription.priority = priority;
         }
-        if (!subscriptions[subscription.type]) {
-            subscriptions[subscription.type] = [];
+        if (!subscriptions[type]) {
+            subscriptions[type] = [];
         }
-        subscriptions[subscription.type].push({
-            callback: subscription.callback,
-            priority: subscription.priority,
-        });
+        subscriptions[type].push(subscription);
 
         // Sort subscriptions by priority.
-        subscriptions[subscription.type].sort((a, b) => {
+        subscriptions[type].sort((a, b) => {
             if (a.priority < b.priority) {
                 return -1;
             }
@@ -39,17 +40,30 @@ export const PubSub = (() => {
         });
     };
 
+    /**
+     * Publish an event.
+     * @param type Type of event.
+     * @param payload
+     */
     const publish = (type: string, payload: object): void => {
         if (subscriptions.hasOwnProperty(type)) {
             subscriptions[type].every((subscription) => subscription.callback(payload));
         }
     };
 
+    /**
+     * Return all subscriptions.
+     */
     const getSubscriptions = (): ISubscription[] => {
         return subscriptions;
     };
 
-    const removeSubscription = (type: string, index: number) => {
+    /**
+     * Remove a subscription.
+     * @param type Type of subscription.
+     * @param index Index of subscription in type array.
+     */
+    const removeSubscription = (type: string, index: number): void => {
         if (subscriptions[type]) {
             subscriptions[type].splice(index, 1);
         } else {

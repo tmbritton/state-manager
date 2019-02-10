@@ -25,6 +25,6 @@ export class Store {
 
     public commit(type: string, payload: object) {
         this.mutations[type].call(this.state, payload);
-        PubSub.publish(type, {payload: this.state});
+        PubSub.publish(type, this.state);
     }
 }

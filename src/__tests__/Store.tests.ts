@@ -1,3 +1,4 @@
+import { PubSub } from "../pubsub/PubSub";
 import { Store } from "../store/Store";
 
 const initialState = {
@@ -19,8 +20,20 @@ test("Get State", () => {
 
 test("Text Mutation", () => {
   const testPayload = {
-    testString: "balls",
+    testString: "Bar",
   };
   store.commit("test", testPayload);
-  expect(store.getState().test).toBe("balls");
+  expect(store.getState().test).toBe("Bar");
+});
+
+test("Commit publishes change", () => {
+  const testPayload = {
+    testString: "Baz",
+  };
+
+  PubSub.subscribe("test", (payload) => {
+    expect(payload.test).toBe(testPayload.testString);
+  });
+
+  store.commit("test", testPayload);
 });

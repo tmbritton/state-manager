@@ -7,6 +7,9 @@
     "rules": {
         "object-literal-shorthand": {
             "severity": "warning"
+        },
+        "no-console": {
+            "severity": "warning"
         }
     },
     "rulesDirectory": []
