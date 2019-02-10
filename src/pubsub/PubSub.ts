@@ -4,32 +4,28 @@ import { ISubscription } from "../interfaces/ISubscription";
  * Publish events with a payload.
  * Accept subscriptions with a callback.
  */
-export class PubSub {
+export const PubSub = (() => {
 
-    private subscriptions: any[];
-
-    constructor() {
-        this.subscriptions = [];
-    }
+    const subscriptions: ISubscription[] = [];
 
     /**
      * Subscribe to a published event.
      * @param subscription
      */
-    public subscribe(subscription: ISubscription): PubSub {
+    const subscribe = (subscription: ISubscription): void => {
         if (typeof subscription.priority !== "number") {
             subscription.priority = 0;
         }
-        if (!this.subscriptions[subscription.type]) {
-            this.subscriptions[subscription.type] = [];
+        if (!subscriptions[subscription.type]) {
+            subscriptions[subscription.type] = [];
         }
-        this.subscriptions[subscription.type].push({
+        subscriptions[subscription.type].push({
             callback: subscription.callback,
             priority: subscription.priority,
         });
 
         // Sort subscriptions by priority.
-        this.subscriptions[subscription.type].sort((a, b) => {
+        subscriptions[subscription.type].sort((a, b) => {
             if (a.priority < b.priority) {
                 return -1;
             }
@@ -40,26 +36,30 @@ export class PubSub {
                 return 0;
             }
         });
+    };
 
-        return this;
-    }
-
-    public publish(type: string, payload: object): void {
-        if (this.subscriptions.hasOwnProperty(type)) {
-            this.subscriptions[type].every((subscription) => subscription.callback(payload));
+    const publish = (type: string, payload: object): void => {
+        if (subscriptions.hasOwnProperty(type)) {
+            subscriptions[type].every((subscription) => subscription.callback(payload));
         }
-    }
+    };
 
-    public getSubscriptions(): ISubscription[] {
-        return this.subscriptions;
-    }
+    const getSubscriptions = (): ISubscription[] => {
+        return subscriptions;
+    };
 
-    public removeSubscription(type: string, index: number): PubSub {
-        if (this.subscriptions[type]) {
-            this.subscriptions[type].splice(index, 1);
+    const removeSubscription = (type: string, index: number) => {
+        if (subscriptions[type]) {
+            subscriptions[type].splice(index, 1);
         } else {
             throw new Error("There are no subscriptions of type: " + type);
         }
-        return this;
-    }
-}
+    };
+
+    return {
+        getSubscriptions,
+        publish,
+        removeSubscription,
+        subscribe,
+    };
+})();
